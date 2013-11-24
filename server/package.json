@@ -9,6 +9,7 @@
     "express": "3.4.0",
     "lodash": "~2.3.0",
     "mongoose": "~3.8.1",
-    "nodemailer": "~0.5.8"
+    "nodemailer": "~0.5.8",
+    "canvas": "~1.1.2"
   }
 }
