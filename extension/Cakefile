@@ -1,3 +1,6 @@
+# WARNING: CAKEFILE IS SHIT
+# Please make it better for other people to use
+
 {exec} = require 'child_process'
 {ncp}  = require 'ncp'
  
