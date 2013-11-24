@@ -12,3 +12,5 @@ logs
 results
 
 node_modules
+
+extension/build
