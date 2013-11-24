@@ -1,0 +1,39 @@
+# Required
+manifest_version: 2
+
+# Basic data
+name: "TagPro Mod Manager"
+description: "Easily use different texturepacks in TagPro"
+version: "0.1"
+
+# Content scripts
+content_scripts: [
+	{
+		matches: ["*://*.koalabeast.com/*"]
+		include_globs: ["*://tagpro-*.koalabeast.com:????/*"]
+		js: ["js/play_screen_script.js"]
+	},
+	{
+		matches: ["*://*.koalabeast.com/*"]
+		include_globs: ["*://tagpro-*.koalabeast.com/"]
+		js: ["js/menu_screen_script.js"]
+	}
+]
+
+# Page action
+page_action:
+	default_icon:
+		19: "action_icon_19.png"
+		38: "action_icon_38.png"
+	default_title: "TagPro Mod Manager"
+	default_popup: "popup.html"
+
+# Background script for chromeStorage access
+background:
+	scripts: ["js/event_page.js"]
+	persistant: false
+
+# Permissions
+permissions: [
+	"tabs"
+]
