@@ -4,6 +4,9 @@ mongoose   = require "mongoose"
 
 # Email setup
 mail_transport = nodemailer.createTransport "Direct", {}
+admin_emails = [
+	"jamie@kwiius.com"
+]
 
 # Import schemas
 Mod = mongoose.models.Mod
@@ -60,20 +63,21 @@ module.exports.post = (req, res) ->
 			res.status 201
 			res.json {}
 
-			# Email admin(s) about the new mod
-			message =
-				from: "TagPro Mod Manager <jamie@kwiius.com>"
-				to:   "TPMM Admins <jamie@kwiius.com>"
-				subject: "Review mod: #{mod.name}"
-				html: """
-				<h1>#{mod.name}</h1>
-				<h3>By #{mod.author}</h3>
-				<p>#{mod.description}</p>
-				<p>Reddit: <a href="http://www.reddit.com/r/TagPro/comments/#{mod.reddit}/">#{mod.reddit}</a></p>
-				"""
+			# Email admins about the new mod
+			for k, email of admin_emails
+				message =
+					from: "TagPro Mod Manager <jamie@kwiius.com>"
+					to:   "TPMM Admins <#{email}>"
+					subject: "Review mod: #{mod.name}"
+					html: """
+					<h1>#{mod.name}</h1>
+					<h3>By #{mod.author}</h3>
+					<p>#{mod.description}</p>
+					<p>Reddit: <a href="http://www.reddit.com/r/TagPro/comments/#{mod.reddit}/">#{mod.reddit}</a></p>
+					"""
 
-			mail_transport.sendMail message, (err, response) ->
-				if (err)
-					console.error "Error email admin"
-				else
-					console.log "Emailed admin about #{mod.name}"
+				mail_transport.sendMail message, (err, response) ->
+					if (err)
+						console.error "Error emailing admin (#{email}})"
+					else
+						console.log "Emailed admin #{email} about #{mod.name}"
