@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TagPro Mod Manager</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				background: #000;
+				color: #fff;
+			}
+
+			a {
+				color: #09F;
+			}
+
+			a:visited {
+				color: #B4F;
+			}
+
+			label {
+				margin-bottom: 15px;
+				display: block;
+			}
+
+			small {
+				color: #999;
+			}
+
+			span.highlight {
+				color: red;
+				font-weight: bold;
+			}
+		</style>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script>
+			var latestFileData = {};
+			$(document).ready(function() {
+				$(".fileupload").each(function() {
+					this.addEventListener("change", function(e) {
+						e.stopPropagation();
+						e.preventDefault();
+
+						if (e.target.files.length == 1) {
+							if (e.target.files[0].type == "image/png") {
+								var reader = new FileReader();
+
+								reader.onload = (function(e) {
+									latestFileData[this.id] = e.target.result;
+								}).bind(this);
+								reader.readAsDataURL(e.target.files[0]);
+							} else {
+								alert("File appears not to be a png!")
+							}
+						} else {
+							delete latestFileData[this.id]; // Just to be safe
+						}
+					}, false)
+				});
+
+				$("form").submit(function() {
+					$("#submit").prop("disabled", true);
+
+					var data = {
+						name:        $("#modname").val(),
+						author:      $("#modauthor").val(),
+						description: $("#moddescription").val(),
+						reddit:      $("#modreddit").val(),
+						files: { }
+					}
+
+					var fileTypes = ["tiles", "flair", "speedpad", "splats"];
+
+					for (var i = 0; i < fileTypes.length; i++) {
+						fn = "modfile" + fileTypes[i];
+						if (latestFileData[fn] != undefined) {
+							data.files[fileTypes[i]] = latestFileData[fn];
+						}
+					}
+
+					if (data.files["tiles"] == undefined) {
+						alert("You need a tiles.png!");
+						$("#submit").prop("disabled", false);
+						return false;
+					}
+
+					$.ajax({
+						contentType: "application/json",
+						data: JSON.stringify(data),
+						dataType: "json",
+						success: function(data) {
+							alert("Mod submitted successfully!");
+							setTimeout(function() {
+								$("#submit").prop("disabled", false);
+							}, 500)
+						}, error: function() {
+							console.error(arguments);
+							alert("Something went wrong: " + arguments[0][2] + "\nPlease message JJJollyjim on reddit for help\n\nMore details in the debug console");
+							$("#submit").prop("disabled", false);
+						},
+						type: "POST",
+						url: "../mods"
+					});
+
+					return false;
+				})
+			});
+		</script>
+	</head>
+	<body>
+		<h1>TagPro Mod Manager</h1>
+		<h2>Upload a Mod</h2>
+
+		<p>Thank you for your contribution to the TagPro modding community!</p>
+		<p>After uploading your mod, the TPMM admins will be notified by email. <br>
+		They will check to make sure your mod has not already been uploaded and is of good(ish) quality, and make it publicly available within the next few hours</p>
+
+		<p><b>Warning:</b> This upload form is VERY BUGGY. It has only been tested in Chrome. If you have problems message JJJollyjim on reddit, he can upload it manually.</p>
+		<form action="javascript:void(0)">
+			<label>
+				Mod name: (<b>required</b>)
+				<br> <input type="text" id="modname" />
+			</label>
+			
+			<label>
+				Description: (<b>required</b>) <small>(Markdown accepted)</small>
+				<br> <textarea id="moddescription"></textarea>
+			</label>
+
+			<label>
+				Author: (<b>required</b>) <small>(Reddit username)</small>
+				<br> <input type="text" id="modauthor" />
+			</label>
+
+			<label>
+				6 character reddit post ID: (<b>required</b>) <small>www.reddit.com/r/TagPro/comments/<span class="highlight">1qh8uj</span>/title_with_underscores/</small>
+				<br> <input type="text" id="modreddit" />
+			</label>
+
+			<label>
+				Tiles.png (<b>required</b>):
+				<br> <input type="file" id="modfiletiles" class="fileupload" />
+			</label>
+			<label>
+				Speedpad.png:
+				<br> <input type="file" id="modfilespeedpad" class="fileupload" />
+			</label>
+			<label>
+				Flair.png:
+				<br> <input type="file" id="modfileflair" class="fileupload" />
+			</label>
+			<label>
+				Splats.png:
+				<br> <input type="file" id="modfilesplats" class="fileupload" />
+			</label>
+
+			<input type="submit" id="submit" />
+		</form>
+	</body>
+</html>

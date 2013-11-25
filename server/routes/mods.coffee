@@ -30,11 +30,17 @@ module.exports.post = (req, res) ->
 	# description: "__Markdown__"
 	# reddit: "1rbcho" (The ID from the Reddit URL)
 	
-	console.log req.body
-	unless req.body.name? and req.body.author? and req.body.description? and req.body.reddit?
+	unless req.body.name? and req.body.author? and req.body.description? and req.body.reddit? and req.body.files.tiles?
 		res.status 400
 		res.json
 			error: "You didn't submit all required fields"
+
+	# Validate that all files are base64 png data URIs
+	for name, file in req.body.files
+		if /^data:image\/png;base64,/.test(file)
+			console.log "#{name} matches regex"
+		else
+			console.log "#{name} doesn't match regex!"
 
 	if last_post[req.ip]?
 		time = last_post[req.ip]
@@ -54,6 +60,7 @@ module.exports.post = (req, res) ->
 		author: req.body.author
 		description: req.body.description
 		reddit: req.body.reddit
+		files: req.body.files
 
 	mod.save (err) ->
 		if (err)
@@ -74,6 +81,7 @@ module.exports.post = (req, res) ->
 					<h3>By #{mod.author}</h3>
 					<p>#{mod.description}</p>
 					<p>Reddit: <a href="http://www.reddit.com/r/TagPro/comments/#{mod.reddit}/">#{mod.reddit}</a></p>
+					<p>IP address: #{req.ip}</p>
 					"""
 
 				mail_transport.sendMail message, (err, response) ->

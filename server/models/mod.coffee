@@ -17,8 +17,14 @@ modSchema = new Schema
 	reddit:
 		type: String
 		required: true
-	thumbnail:
-		type: Buffer
+	thumbnail: String
+	files:
+		tiles:
+			type: String
+			required: true
+		speedpad: String
+		splats: String
+		flair: String
 	accepted:
 		type: Boolean
 		default: false
