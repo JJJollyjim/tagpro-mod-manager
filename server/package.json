@@ -10,6 +10,7 @@
     "mongoose": "~3.8.1",
     "nodemailer": "~0.5.8",
     "canvas": "~1.1.2",
-    "dropbox": "~0.10.2"
+    "dropbox": "~0.10.2",
+    "coffee-script": "~1.6.3"
   }
 }
