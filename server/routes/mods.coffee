@@ -17,8 +17,18 @@ module.exports.get = (req, res) ->
 	Mod.find {accepted: true}, "name author", (err, results) ->
 
 		throw new Error("Error loading mod list") if err
+
 		res.status(204) if results.length is 0 # HTTP 202: No content
-		res.json results
+
+		pojos = []
+		for mod, k in results
+			mod.getThumbnail ((mod, url) ->
+				mobj = mod.toObject()
+				mobj.thumbnail = url
+				pojos.push mobj
+
+				if pojos.length is results.length
+					res.json pojos).bind this, mod
 
 last_post = {}
 
@@ -79,7 +89,6 @@ module.exports.post = (req, res) ->
 					html: """
 					<h1>#{mod.name}</h1>
 					<h3>By #{mod.author}</h3>
-					<p>#{mod.description}</p>
 					<p>Reddit: <a href="http://www.reddit.com/r/TagPro/comments/#{mod.reddit}/">#{mod.reddit}</a></p>
 					<p>IP address: #{req.ip}</p>
 					"""
