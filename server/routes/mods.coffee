@@ -14,7 +14,8 @@ Mod = mongoose.models.Mod
 module.exports = {}
 
 module.exports.get = (req, res) ->
-	Mod.find {accepted: true}, "name author description", (err, results) ->
+	Mod.find {accepted: true}, "name author", (err, results) ->
+
 		throw new Error("Error loading mod list") if err
 		res.status(204) if results.length is 0 # HTTP 202: No content
 		res.json results
@@ -30,7 +31,7 @@ module.exports.post = (req, res) ->
 	# description: "__Markdown__"
 	# reddit: "1rbcho" (The ID from the Reddit URL)
 	
-	unless req.body.name? and req.body.author? and req.body.description? and req.body.reddit? and req.body.files.tiles?
+	unless req.body.name? and req.body.author? and req.body.reddit? and req.body.files.tiles?
 		res.status 400
 		res.json
 			error: "You didn't submit all required fields"
@@ -58,7 +59,6 @@ module.exports.post = (req, res) ->
 	mod = new Mod
 		name: req.body.name
 		author: req.body.author
-		description: req.body.description
 		reddit: req.body.reddit
 		files: req.body.files
 

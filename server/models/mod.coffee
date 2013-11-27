@@ -11,9 +11,6 @@ modSchema = new Schema
 	author:
 		type: String
 		required: true
-	description:
-		type: String
-		required: true
 	reddit:
 		type: String
 		required: true
