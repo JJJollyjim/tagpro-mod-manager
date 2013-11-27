@@ -3,7 +3,6 @@ mongoose = require "mongoose"
 express  = require "express"
 http     = require "http"
 path     = require "path"
-_        = require "lodash"
 
 # Internal module dependencies
 utils  = require "./utils" # Utils must come first, as some module loaders need it
