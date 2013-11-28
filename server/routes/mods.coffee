@@ -47,13 +47,6 @@ module.exports.post = (req, res) ->
 		return res.json
 			error: "You didn't submit all required fields"
 
-	# Validate that all files are base64 png data URIs
-	for name, file in req.body.files
-		if /^data:image\/png;base64,/.test(file)
-			console.log "#{name} matches regex"
-		else
-			console.log "#{name} doesn't match regex!"
-
 	if last_post[req.ip]?
 		time = last_post[req.ip]
 
@@ -87,7 +80,7 @@ module.exports.post = (req, res) ->
 				anyerrs = false
 				for name, file of mod.files.toObject()
 					todo++
-					filestore.addFile mod._id, name, utils.png64.dec(file), (err) ->
+					filestore.addFile mod._id.toString(), name, utils.png64.dec(file), (err) ->
 						todo--
 						if err
 							throw new Error "Error adding files to filestore"

@@ -49,16 +49,16 @@ unless process.env.tagpro_mongodb_connection_string?
 	console.log "You must specify the environment variable 'tagpro_mongodb_connection_string'"
 	process.exit 1
 
-# Connect to mongo server
-mongoose.connect process.env.tagpro_mongodb_connection_string
-
 # Connect to dropbox
 new utils.Filestore (err, fs) ->
 	if err then throw new Error "Couldn't connect to Filestore"
 	console.log "Successfully connected to filestore"
 
+	# Make filestore available everywhere
 	global.filestore = fs
 
+	# Connect to mongo server
+	mongoose.connect process.env.tagpro_mongodb_connection_string
 	mongoose.connection.on "connected", ->
 		# Mongo connection succeeded
 		console.log "Successfully connected to mongodb server"
