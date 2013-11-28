@@ -18,8 +18,12 @@ class Filestore
 
 			callback false, @
 
-	addMod: (id, files = {}, callback) ->
+	addMod: (id, callback) ->
 		@client.mkdir id, (err, stat) ->
+			callback(err)
+
+	addFile: (id, name, buffer, callback)	->
+		@client.writeFile "/#{id}/#{name}.png", buffer, (err, stat) ->
 			callback(err)
 
 	urlcache = {}

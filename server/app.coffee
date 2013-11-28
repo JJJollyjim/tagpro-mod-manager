@@ -40,12 +40,9 @@ app.use express.static "#{__dirname}/public"
 app.use express.errorHandler()
 
 # Set up routes
-for name, route of routes
-	if route.get?
-		app.get "/#{name}", route.get
-
-	if route.post?
-		app.post "/#{name}", route.post
+app.get  "/mods",  routes.mods.get
+app.post "/mods",  routes.mods.post
+app.get  "/files/:id", routes.files
 
 # Check that a mongo connection string is in the ENV
 unless process.env.tagpro_mongodb_connection_string?
@@ -55,13 +52,20 @@ unless process.env.tagpro_mongodb_connection_string?
 # Connect to mongo server
 mongoose.connect process.env.tagpro_mongodb_connection_string
 
-mongoose.connection.on "connected", ->
-	# Mongo connection succeeded
-	console.log "Successfully connected to mongodb server"
+# Connect to dropbox
+new utils.Filestore (err, fs) ->
+	if err then throw new Error "Couldn't connect to Filestore"
+	console.log "Successfully connected to filestore"
 
-	# Start the HTTP server
-	http.createServer(app).listen app.get("port"), ->
-		console.log "Running Express HTTP server on port #{app.get "port"}"
+	global.filestore = fs
+
+	mongoose.connection.on "connected", ->
+		# Mongo connection succeeded
+		console.log "Successfully connected to mongodb server"
+
+		# Start the HTTP server
+		http.createServer(app).listen app.get("port"), ->
+			console.log "Running Express HTTP server on port #{app.get "port"}"
 
 mongoose.connection.on "disconnected", ->
 	# Mongo connection failed
