@@ -1,5 +1,5 @@
 # WARNING: CAKEFILE IS SHIT
-# Please make it better for other people to use
+# Please make it better for other people to use, or set it up with grunt instead
 
 {exec} = require 'child_process'
 {ncp}  = require 'ncp'
@@ -9,6 +9,3 @@ task "sbuild", "build the files", (options) ->
 	exec "cson2json src/manifest.cson > build/manifest.json"
 	ncp "src/misc/", "build/", ->
 		console.log "Copied"
-
-task "watch", "watch for changes and build the files", (options) ->
-	exec "coffee --watch --compile --output build/js/ src/"

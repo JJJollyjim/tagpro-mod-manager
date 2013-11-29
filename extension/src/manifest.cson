@@ -12,11 +12,6 @@ content_scripts: [
 		matches: ["*://*.koalabeast.com/*"]
 		include_globs: ["*://tagpro-*.koalabeast.com:????/*"]
 		js: ["js/play_screen_script.js"]
-	},
-	{
-		matches: ["*://*.koalabeast.com/*"]
-		include_globs: ["*://tagpro-*.koalabeast.com/"]
-		js: ["js/menu_screen_script.js"]
 	}
 ]
 
@@ -28,7 +23,9 @@ page_action:
 	default_title: "TagPro Mod Manager"
 	default_popup: "popup.html"
 
-# Background script for chromeStorage access
+# Background script for:
+# * page_action showing and hiding
+# * storage initialisation
 background:
 	scripts: ["js/event_page.js"]
 	persistant: false
@@ -36,4 +33,5 @@ background:
 # Permissions
 permissions: [
 	"tabs"
+	"storage"
 ]
