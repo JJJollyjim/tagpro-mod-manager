@@ -6,7 +6,7 @@ An easy way to manage mods for [TagPro](http://tagpro.koalabeast.net), the amazi
 
 The project has just migrated to GitHub (from ✈'s laptop), so a better `README.md` is coming soon (pull request, anyone?).
 
-### License (GPLv3):
+## License (GPLv3):
     Copyright (C) 2013 Jamie McClymont (✈, JJJollyjim, jj56)
 
     This program is free software: you can redistribute it and/or modify
