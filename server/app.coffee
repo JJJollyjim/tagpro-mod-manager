@@ -43,6 +43,7 @@ app.use express.errorHandler()
 app.get  "/mods",  routes.mods.get
 app.post "/mods",  routes.mods.post
 app.get  "/files/:id", routes.files
+app.get  "/files64/:id", routes.files64
 
 # Check that a mongo connection string is in the ENV
 unless process.env.tagpro_mongodb_connection_string?
