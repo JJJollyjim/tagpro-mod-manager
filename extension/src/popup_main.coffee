@@ -1,4 +1,7 @@
-qwest.get("http://tagpro-mod-manager.herokuapp.com/mods").success ->
+# tpmmServer = "http://localhost:5000"
+tpmmServer = "http://tagpro-mod-manager.herokuapp.com"
+
+qwest.get("#{tpmmServer}/mods").success ->
 	mods = this.response
 
 	loader = document.getElementById "loader"
@@ -47,7 +50,7 @@ qwest.get("http://tagpro-mod-manager.herokuapp.com/mods").success ->
 			li.addEventListener "click", ->
 				loader.style.display = "block"
 
-				qwest.get("http://tagpro-mod-manager.herokuapp.com/files64/#{@dataset.modid}").success (data) =>
+				qwest.get("#{tpmmServer}/files/#{@dataset.modid}").success (data) =>
 					chrome.storage.local.set {sid: @dataset.modid, files: data.files}, =>
 						for ele in document.getElementsByClassName "sidmatch"
 							ele.className = "mod"
