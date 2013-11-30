@@ -24,12 +24,15 @@ module.exports.get = (req, res) ->
 		pojos = []
 		for mod, k in results
 			mod.getThumbnail ((mod, url) ->
+				console.log "Callback"
 				mobj = mod.toObject()
 				mobj.thumbnail = url
 				pojos.push mobj
 
+				console.log pojos.length, results.length
 				if pojos.length is results.length
-					res.json pojos).bind this, mod
+					res.json pojos
+			).bind this, mod
 
 last_post = {}
 
@@ -70,43 +73,22 @@ module.exports.post = (req, res) ->
 			res.status 500
 			return res.json error: "Unknown database error occoured"
 		else
-			# Save to filestore
-			filestore.addMod mod._id.toString(), (err) ->
-				if err
-					res.status 500
-					return res.json error: "Couldn't add mod to filestore"
+			res.status 201
+			res.json {}
 
-				todo = 0
-				anyerrs = false
-				for name, file of mod.files.toObject()
-					todo++
-					filestore.addFile mod._id.toString(), name, utils.png64.dec(file), (err) ->
-						todo--
-						if err
-							throw new Error "Error adding files to filestore"
-							anyerrs = true
+			# Email admins about the new mod
+			for k, email of admin_emails
+				message =
+					from: "TagPro Mod Manager <jamie@kwiius.com>"
+					to:   "TPMM Admins <#{email}>"
+					subject: "Review mod: #{mod.name}"
+					html: """
+					<h1>#{mod.name}</h1>
+					<h3>By #{mod.author}</h3>
+					<p>Reddit: <a href="http://www.reddit.com/r/TagPro/comments/#{mod.reddit}/">#{mod.reddit}</a></p>
+					<p>IP address: #{req.ip}</p>
+					"""
 
-						if todo is 0 
-							if anyerrs
-								res.status 500
-								return res.json error: "Couldn't add mod to filestore"
-							else
-								res.status 201
-								res.json {}
-
-							# Email admins about the new mod
-							for k, email of admin_emails
-								message =
-									from: "TagPro Mod Manager <jamie@kwiius.com>"
-									to:   "TPMM Admins <#{email}>"
-									subject: "Review mod: #{mod.name}"
-									html: """
-									<h1>#{mod.name}</h1>
-									<h3>By #{mod.author}</h3>
-									<p>Reddit: <a href="http://www.reddit.com/r/TagPro/comments/#{mod.reddit}/">#{mod.reddit}</a></p>
-									<p>IP address: #{req.ip}</p>
-									"""
-
-								mail_transport.sendMail message, (err, response) ->
-									if (err) then console.error "Error emailing admin (#{email}})"
-									else console.log "Emailed admin #{email} about #{mod.name}"
+				mail_transport.sendMail message, (err, response) ->
+					if (err) then console.error "Error emailing admin (#{email}})"
+					else console.log "Emailed admin #{email} about #{mod.name}"

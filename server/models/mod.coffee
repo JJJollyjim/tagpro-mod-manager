@@ -34,6 +34,8 @@ modSchema.methods.getThumbnail = (callback) ->
 	if thumbnailCache[@_id]?
 		callback thumbnailCache[@_id]
 	else
+		initMod = @
+
 		canvas = new Canvas(140, 100)
 		ctx = canvas.getContext("2d")
 
@@ -41,10 +43,14 @@ modSchema.methods.getThumbnail = (callback) ->
 			this.drawImage img, sx*40, sy*40, 40, 40, dx*40, dy*40, 40, 40
 
 		@model("Mod").findById @_id, "files", (err, objfiles) ->
+			if err then console.err err
+			if err then throw new Error "Couldn't load file for thumbnail"
+			
+			# Load image
 			tiles = new Image()
 			tiles.src = objfiles.files.tiles
 
-			# Tiles
+			# Draw Tiles
 			ctx.drawSprite tiles, 2, 2, -0.5, 0
 			ctx.drawSprite tiles, 2, 2, 0.5, 0
 			ctx.drawSprite tiles, 2, 2, 1.5, 0
@@ -72,8 +78,7 @@ modSchema.methods.getThumbnail = (callback) ->
 
 			# Flag (blue)
 			ctx.drawSprite tiles, 8, 0, bp.x + 0.33, bp.y - 0.82
-			
-
+		
 			canvas.toDataURL (err, url) ->
 				throw new Error "Error rendering image" if err
 
