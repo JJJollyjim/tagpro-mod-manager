@@ -24,12 +24,10 @@ module.exports.get = (req, res) ->
 		pojos = []
 		for mod, k in results
 			mod.getThumbnail ((mod, url) ->
-				console.log "Callback"
 				mobj = mod.toObject()
 				mobj.thumbnail = url
 				pojos.push mobj
 
-				console.log pojos.length, results.length
 				if pojos.length is results.length
 					res.json pojos
 			).bind this, mod
