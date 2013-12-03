@@ -1,6 +1,6 @@
 # TagPro Mod Manager
 
-An easy way to manage mods for [TagPro](http://tagpro.koalabeast.net), the amazing online game:
+An easy way to manage mods for [TagPro](http://tagpro.koalabeast.com), the amazing online game:
 
 > It's like drunk capture the flag on a pool table!
 
