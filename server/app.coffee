@@ -3,6 +3,7 @@ mongoose = require "mongoose"
 express  = require "express"
 http     = require "http"
 path     = require "path"
+ccs      = require "connect-coffee-script"
 
 # Internal module dependencies
 utils  = require "./utils" # Utils must come first, as some module loaders need it
@@ -34,6 +35,8 @@ app.use express.favicon()
 app.use express.logger "dev"
 app.use express.json()
 app.use app.router
+app.use ccs
+	src: "#{__dirname}/public"
 app.use express.static "#{__dirname}/public"
 
 # if app.get("env") is "development"
@@ -42,6 +45,7 @@ app.use express.errorHandler()
 # Set up routes
 app.get  "/mods",  routes.mods.get
 app.post "/mods",  routes.mods.post
+app.get  "/mixables", routes.mixables
 app.get  "/files/:id", routes.files
 app.get  "/files64/:id", routes.files
 

@@ -11,6 +11,7 @@
     "nodemailer": "~0.5.8",
     "canvas": "~1.1.2",
     "dropbox": "~0.10.2",
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.6.3",
+    "connect-coffee-script": "~0.1.6"
   }
 }
