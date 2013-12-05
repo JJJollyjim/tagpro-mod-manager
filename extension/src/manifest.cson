@@ -30,6 +30,8 @@ background:
 	scripts: ["js/event_page.js"]
 	persistant: false
 
+options_page: "options.html"
+
 # Permissions
 permissions: [
 	"tabs"
