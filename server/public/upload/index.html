@@ -63,8 +63,6 @@
 					var data = {
 						name:        $("#modname").val(),
 						author:      $("#modauthor").val(),
-						description: $("#moddescription").val(),
-						reddit:      $("#modreddit").val(),
 						files: { }
 					}
 
@@ -120,20 +118,10 @@
 				Mod name: (<b>required</b>)
 				<br> <input type="text" id="modname" />
 			</label>
-			
-			<label>
-				Description: (<b>required</b>) <small>(Markdown accepted)</small>
-				<br> <textarea id="moddescription"></textarea>
-			</label>
 
 			<label>
-				Author: (<b>required</b>) <small>(Reddit username)</small>
+				Author: (<b>required</b>)
 				<br> <input type="text" id="modauthor" />
-			</label>
-
-			<label>
-				6 character reddit post ID: (<b>required</b>) <small>www.reddit.com/r/TagPro/comments/<span class="highlight">1qh8uj</span>/title_with_underscores/</small>
-				<br> <input type="text" id="modreddit" />
 			</label>
 
 			<label>

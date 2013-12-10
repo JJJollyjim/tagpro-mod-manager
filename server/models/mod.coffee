@@ -13,9 +13,6 @@ modSchema = new Schema
 	author:
 		type: String
 		required: true
-	reddit:
-		type: String
-		required: true
 	files:
 		tiles:
 			type: String

@@ -40,10 +40,8 @@ module.exports.post = (req, res) ->
 	# 
 	# name: "Any String" (unique)
 	# author: "Reddit username"
-	# description: "__Markdown__"
-	# reddit: "1rbcho" (The ID from the Reddit URL)
 	
-	unless req.body.name? and req.body.author? and req.body.reddit? and req.body.files.tiles?
+	unless req.body.name? and req.body.author? and req.body.files.tiles?
 		res.status 400
 		return res.json
 			error: "You didn't submit all required fields"
@@ -62,7 +60,6 @@ module.exports.post = (req, res) ->
 	mod = new Mod
 		name: req.body.name
 		author: req.body.author
-		reddit: req.body.reddit
 		files: req.body.files
 
 	# Save to mongodb
@@ -83,7 +80,6 @@ module.exports.post = (req, res) ->
 					html: """
 					<h1>#{mod.name}</h1>
 					<h3>By #{mod.author}</h3>
-					<p>Reddit: <a href="http://www.reddit.com/r/TagPro/comments/#{mod.reddit}/">#{mod.reddit}</a></p>
 					<p>IP address: #{req.ip}</p>
 					"""
 
