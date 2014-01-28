@@ -4,7 +4,7 @@ manifest_version: 2
 # Basic data
 name: "TagPro Mod Manager"
 description: "Easily use different texturepacks in TagPro"
-version: "1.2"
+version: "1.2.1"
 
 # Content scripts
 content_scripts: [
