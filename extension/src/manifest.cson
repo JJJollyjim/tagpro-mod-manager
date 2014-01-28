@@ -9,8 +9,8 @@ version: "1.1"
 # Content scripts
 content_scripts: [
 	{
-		matches: ["*://*.koalabeast.com/*"]
-		include_globs: ["*://tagpro-*.koalabeast.com:????/*"]
+		matches: ["*://*.koalabeast.com/*", "*://*.jukejuice.com/*"]
+		include_globs: ["*://tagpro-*.koalabeast.com:????/*", "*://*.jukejuice.com:????/*"]
 		js: ["js/play_screen_script.js"]
 	}
 ]
