@@ -18,19 +18,20 @@ module.exports.get = (req, res) ->
 	Mod.find {accepted: true}, "name author", (err, results) ->
 
 		throw new Error("Error loading mod list") if err
+		
+		if results.length is 0
+			res.json error: "No mods found"
+		else
+			pojos = []
+			for mod, k in results
+				mod.getThumbnail ((mod, url) ->
+					mobj = mod.toObject()
+					mobj.thumbnail = url
+					pojos.push mobj
 
-		res.status(204) if results.length is 0 # HTTP 202: No content
-
-		pojos = []
-		for mod, k in results
-			mod.getThumbnail ((mod, url) ->
-				mobj = mod.toObject()
-				mobj.thumbnail = url
-				pojos.push mobj
-
-				if pojos.length is results.length
-					res.json pojos
-			).bind this, mod
+					if pojos.length is results.length
+						res.json pojos
+				).bind this, mod
 
 last_post = {}
 
