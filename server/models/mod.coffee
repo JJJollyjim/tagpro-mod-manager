@@ -19,8 +19,11 @@ modSchema = new Schema
 			required: true
 			dropDups: true
 		speedpad: String
+		speedpadred: String
+		speedpadblue: String
 		splats: String
 		flair: String
+		portal: String
 	accepted:
 		type: Boolean
 		default: false

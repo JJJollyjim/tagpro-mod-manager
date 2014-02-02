@@ -66,7 +66,7 @@
 						files: { }
 					}
 
-					var fileTypes = ["tiles", "flair", "speedpad", "splats"];
+					var fileTypes = ["tiles", "flair", "speedpad", "speedpadred", "speedpadblue", "splats", "portal"];
 
 					for (var i = 0; i < fileTypes.length; i++) {
 						fn = "modfile" + fileTypes[i];
@@ -133,12 +133,24 @@
 				<br> <input type="file" id="modfilespeedpad" class="fileupload" />
 			</label>
 			<label>
+				SpeedpadRed.png:
+				<br> <input type="file" id="modfilespeedpadred" class="fileupload" />
+			</label>
+			<label>
+				SpeedpadBlue.png:
+				<br> <input type="file" id="modfilespeedpadblue" class="fileupload" />
+			</label>
+			<label>
 				Flair.png:
 				<br> <input type="file" id="modfileflair" class="fileupload" />
 			</label>
 			<label>
 				Splats.png:
 				<br> <input type="file" id="modfilesplats" class="fileupload" />
+			</label>
+			<label>
+				Portal.png:
+				<br> <input type="file" id="modfileportal" class="fileupload" />
 			</label>
 
 			<input type="submit" id="submit" />

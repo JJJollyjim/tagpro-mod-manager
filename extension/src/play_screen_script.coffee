@@ -3,7 +3,7 @@ chrome.storage.local.get "files", (vals) ->
 	files = vals.files
 	console.log files
 
-	fileTypes = ["tiles", "splats", "flair", "speedpad"]
+	fileTypes = ["tiles", "splats", "flair", "speedpad", "speedpadred", "speedpadblue", "portal"]
 
 	for type in fileTypes
 		console.log "? #{type}"
