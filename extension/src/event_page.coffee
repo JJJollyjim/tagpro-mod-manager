@@ -15,7 +15,7 @@ chrome.tabs.onUpdated.addListener (tabID, delta, tab) ->
 
 	# Check if we're on a tagpro page
 	console.log "ph", parser.hostname
-	if /^tagpro[a-z\-]*\.koalabeast\.com$/i.test(parser.hostname) or /^[a-z]*.jukejuice.com$/i.test(parser.hostname)
+	if /^tagpro[a-z\-]*\.koalabeast\.com$/i.test(parser.hostname) or /^[a-z]*.jukejuice.com$/i.test(parser.hostname) or /^justletme.be$/i.test(parser.hostname) or /^maptest.newcompte.fr$/i.test(parser.hostname)
 		console.log "MATCH"
 		# Show the flag page action
 		chrome.pageAction.show tabID
